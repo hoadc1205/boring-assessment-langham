@@ -1,0 +1,200 @@
+BEGIN HotelRoomManagementSystem
+
+    DECLARE roomData AS Dictionary
+    DECLARE roomAllocationData AS Dictionary
+    DECLARE roomAllocationFilePath AS String
+    DECLARE roomAllocationBackupFilePath AS String
+    
+    SET roomAllocationFilePath TO "LHMS_850001677.txt"
+    SET roomAllocationBackupFilePath TO "LHMS_850001677_Backup_Date_Time.txt"
+
+    PROCEDURE AddRoom
+        READ roomNumber
+        IF roomNumber EXISTS IN roomData THEN
+            WRITE "Room already exists, please choose another room number"
+            RETURN
+        ENDIF
+
+        READ roomType
+        READ roomPrice
+        READ roomDescription
+
+        SET roomStatus TO "AVAILABLE"
+        CREATE newRoom WITH roomType, roomPrice, roomStatus, roomDescription
+        STORE newRoom IN roomData WITH roomNumber AS KEY
+
+        WRITE "Room added successfully"
+    END PROCEDURE
+
+    PROCEDURE DisplayRooms
+        IF roomData IS EMPTY THEN
+            WRITE "No rooms found"
+            RETURN
+        ENDIF
+
+        FOR EACH roomNumber, room IN roomData
+            WRITE "Room Number:", roomNumber
+            WRITE "Type:", room.type
+            WRITE "Price:", room.price
+            WRITE "Status:", room.status
+            WRITE "Description:", room.description
+        END FOR
+    END PROCEDURE
+
+    PROCEDURE DeleteRoom
+        READ roomNumber
+        IF roomNumber NOT EXISTS IN roomData THEN
+            WRITE "Room does not exist"
+            RETURN
+        ENDIF
+
+        REMOVE roomNumber FROM roomData
+        WRITE "Room deleted successfully"
+    END PROCEDURE
+
+    PROCEDURE AddRoomAllocation
+        WRITE "Available Rooms:"
+        FOR EACH roomNumber, room IN roomData
+            IF room.status IS "AVAILABLE" THEN
+                WRITE "Room Number:", roomNumber
+                WRITE "Type:", room.type
+                WRITE "Price:", room.price
+            ENDIF
+        END FOR
+
+        READ roomNumber
+        IF roomNumber NOT EXISTS IN roomData THEN
+            WRITE "Room does not exist"
+            RETURN
+        ENDIF
+
+        IF roomData[roomNumber].status IS "OCCUPIED" THEN
+            WRITE "Room is already occupied"
+            RETURN
+        ENDIF
+
+        READ customerName
+        READ checkInDate
+        READ checkOutDate
+        READ extraFee
+        READ description
+
+        CREATE newRoomAllocation WITH customerName, checkInDate, checkOutDate, roomData[roomNumber].price, extraFee, description
+        STORE newRoomAllocation IN roomAllocationData WITH roomNumber AS KEY
+        SET roomData[roomNumber].status TO "OCCUPIED"
+
+        WRITE "Room allocated successfully"
+    END PROCEDURE
+
+    PROCEDURE DisplayRoomAllocations
+        IF roomAllocationData IS EMPTY THEN
+            WRITE "No room allocations found"
+            RETURN
+        ENDIF
+
+        FOR EACH roomNumber, allocation IN roomAllocationData
+            WRITE "Room Number:", roomNumber
+            WRITE "Customer Name:", allocation.customerName
+            WRITE "Check-In Date:", allocation.checkInDate
+            WRITE "Check-Out Date:", allocation.checkOutDate
+            WRITE "Description:", allocation.description
+        END FOR
+    END PROCEDURE
+
+    PROCEDURE RoomDeallocation
+        READ roomNumber
+        IF roomNumber NOT EXISTS IN roomData THEN
+            WRITE "Room does not exist"
+            RETURN
+        ENDIF
+
+        IF roomData[roomNumber].status IS NOT "OCCUPIED" THEN
+            WRITE "Room is not occupied"
+            RETURN
+        ENDIF
+
+        READ updateCheckOutDate
+        IF updateCheckOutDate IS "yes" THEN
+            READ newCheckOutDate
+            SET roomAllocationData[roomNumber].checkOutDate TO newCheckOutDate
+        ENDIF
+
+        READ addExtraFee
+        IF addExtraFee IS "yes" THEN
+            READ newFee
+            SET roomAllocationData[roomNumber].fee TO newFee
+        ENDIF
+
+        CALCULATE stayDuration AS Difference Between checkOutDate AND checkInDate
+        CALCULATE totalCost AS stayDuration * roomData[roomNumber].price + roomAllocationData[roomNumber].fee
+        WRITE "Total Cost:", totalCost
+
+        SET roomData[roomNumber].status TO "AVAILABLE"
+        REMOVE roomNumber FROM roomAllocationData
+
+        WRITE "Room deallocated successfully"
+    END PROCEDURE
+
+    PROCEDURE SaveRoomAllocationData
+        OPEN roomAllocationFilePath FOR WRITING
+        FOR EACH roomNumber, allocation IN roomAllocationData
+            WRITE TO roomAllocationFilePath: roomNumber, customerName, checkInDate, checkOutDate, description
+        END FOR
+        CLOSE roomAllocationFilePath
+        WRITE "Data saved successfully"
+    END PROCEDURE
+
+    PROCEDURE BackupRoomAllocationData
+        OPEN roomAllocationFilePath FOR READING
+        READ roomAllocationData FROM roomAllocationFilePath
+        CLOSE roomAllocationFilePath
+
+        OPEN roomAllocationBackupFilePath FOR APPENDING
+        WRITE CURRENT DATE AND TIME TO roomAllocationBackupFilePath
+        WRITE roomAllocationData TO roomAllocationBackupFilePath
+        CLOSE roomAllocationBackupFilePath
+
+        WRITE "Data backup completed successfully"
+    END PROCEDURE
+
+    PROCEDURE MainMenu
+        WHILE True
+            WRITE "1. Add Room"
+            WRITE "2. Display Rooms"
+            WRITE "3. Delete Room"
+            WRITE "4. Add Room Allocation"
+            WRITE "5. Display Room Allocations"
+            WRITE "6. Room Deallocation"
+            WRITE "7. Save Room Allocation Data"
+            WRITE "8. Backup Room Allocation Data"
+            WRITE "9. Exit"
+            READ userChoice
+
+            IF userChoice IS 1 THEN
+                CALL AddRoom
+            ELSE IF userChoice IS 2 THEN
+                CALL DisplayRooms
+            ELSE IF userChoice IS 3 THEN
+                CALL DeleteRoom
+            ELSE IF userChoice IS 4 THEN
+                CALL AddRoomAllocation
+            ELSE IF userChoice IS 5 THEN
+                CALL DisplayRoomAllocations
+            ELSE IF userChoice IS 6 THEN
+                CALL RoomDeallocation
+            ELSE IF userChoice IS 7 THEN
+                CALL SaveRoomAllocationData
+            ELSE IF userChoice IS 8 THEN
+                CALL BackupRoomAllocationData
+            ELSE IF userChoice IS 9 THEN
+                WRITE "Exiting the system"
+                BREAK
+            ELSE
+                WRITE "Invalid option, please try again"
+            ENDIF
+        END WHILE
+    END PROCEDURE
+
+    CALL MainMenu
+
+END HotelRoomManagementSystem
