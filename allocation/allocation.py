@@ -21,15 +21,20 @@ class RoomAllocation:
         return f"{self.customerName}, {self.checkInDate}, {self.checkOutDate}, {self.description}, {self.price}, {self.fee}"
 
 # Test data
-roomAllocationData['403'] = RoomAllocation("rackal", datetime.datetime.strptime('2024-11-15 20:00', '%Y-%m-%d %H:%M'), datetime.datetime.strptime('2024-11-16 20:00', '%Y-%m-%d %H:%M'), 'hehe', 100, 10)
+roomAllocationData['403'] = RoomAllocation("rackal", datetime.datetime.strptime('2024-11-15 20:00', '%Y-%m-%d %H:%M'), datetime.datetime.strptime('2024-11-16 20:00', '%Y-%m-%d %H:%M'), 'Testing Data', 100, 10)
 
 # Function to add room allocation
 def addRoomAllocation():
     print('********************************************************')
     print('AVAILABLE ROOMS')
+    totalAvailableRooms = 0
     for roomNumber, room in roomData.items():
             if room.status == RoomStatus.AVAILABLE:
+                totalAvailableRooms += 1
                 print(f'Room Number: {roomNumber} --- Type: {room.type}, Price: {room.price}, Status: {room.status}, Description: {room.description}')
+    if totalAvailableRooms == 0:
+        print('No available rooms')
+        return            
     print('********************************************************')
     while True:
         try:

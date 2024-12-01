@@ -10,7 +10,6 @@ def main():
     print("                 LANGHAM HOTEL MANAGEMENT SYSTEM                  ")
     print("                            MENU                                 ")
     print("********************************************************************************")
-    print("0. Exit")
     print("1. Add Rooms")
     print("2. Display Rooms")
     print("3. Delete Rooms")
@@ -20,6 +19,7 @@ def main():
     print("7. Save the Room Allocations To a File")
     print("8. Show the Room Allocations From a File")
     print("9. Backup")
+    print("0. Exit")
     print("********************************************************************************")
 
     while True:

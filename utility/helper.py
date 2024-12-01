@@ -6,6 +6,8 @@ def InputCommand(inputString):
     while True: 
         string = input(inputString)
         try:
+            if len(string) == 0:
+                raise ValueError('Command invalid')
             newInteger = int(string)
             if newInteger < 0 or newInteger > 9:
                 raise ValueError('Command invalid')
@@ -29,6 +31,8 @@ def InputNumberOfRoom(inputString):
     while True: 
         string = input(inputString)
         try:
+            if len(string) == 0:
+                raise ValueError('Number of room cannot be empty')
             newInteger = int(string)
             if newInteger > 3:
                 newInteger = 3
@@ -51,6 +55,8 @@ def InputFloat(inputString):
     while True: 
         string = input(inputString)
         try:
+            if len(string) == 0:
+                raise ValueError('Price cannot be empty')
             newFloat = float(string)
             if newFloat <= 0:
                 raise ValueError('Price must be greater than 0')
@@ -75,6 +81,8 @@ def InputDateTime(inputString):
         # check checkin time is greater than check out time and current time
 
         try:
+            if len(string) == 0:
+                raise ValueError('Datetime cannot be empty')
             newDateTime = datetime.datetime.strptime(string, '%Y-%m-%d %H:%M')
             return newDateTime
         except TypeError as typeErr:
@@ -94,6 +102,8 @@ def InputDateTime(inputString):
 def InputCheckInOutDate(checkinString, checkoutString):
     while True:
         try:
+            if len(checkinString) == 0 or len(checkoutString) == 0:
+                raise ValueError('Check in and check out time cannot be empty')
             checkinTime = input(checkinString)
             checkin = datetime.datetime.strptime(checkinTime, '%Y-%m-%d %H:%M')
             checkoutTime = input(checkoutString)
@@ -124,7 +134,7 @@ def InputRoomNumber(inputString):
     while True: 
         string = input(inputString)
         try:
-            if len(string) != 3 or len(string) != 4:
+            if len(string) != 3 and len(string) != 4:
                 raise ValueError('Room number must be 3 or 4 characters long')
             else:
                 return string

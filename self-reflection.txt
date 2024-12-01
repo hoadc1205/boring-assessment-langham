@@ -1,9 +1,9 @@
 1/
-- In previous program using C#, room data and allocation data was using data type array, I convert it to map.
+- In previous program using C#, room data and allocation data was using list data type, I convert it to map.
 - Because with map, I could easily check duplication for room number and map offer better performance by finding key faster than using array loop through each element one by one.
 
 2/
 - When customer check out a room, I added calculation for billing in function deallocation, based on number of day customer stayed plus extra fee
 
 3/
-- For most hotel, room numbers are always format of 3 or 4 digits only
+- For most hotel in real world, room numbers are always format of 3 or 4 digits only

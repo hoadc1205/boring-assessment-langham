@@ -19,7 +19,7 @@ class Room:
         return f"{self.type}, {self.price}, {self.status}, {self.description}"
     
 # Test data
-roomData['403'] = Room(RoomType.SINGLE, 100, RoomStatus.OCCUPIED, 'Single room')
+roomData['403'] = Room(RoomType.SINGLE, 100.0, RoomStatus.OCCUPIED, 'Testing Data')
 
 # Function to add room
 def addRoom():
@@ -69,11 +69,13 @@ def displayRooms():
 # Function to delete room
 def deleteRoom():
     try:
-        roomNumber = InputRoomNumber("Enter room number: ")
+        roomNumber = InputRoomNumber("Enter room number you want to delete: ")
         if roomNumber not in roomData:
             raise ValueError(f'Room {roomNumber} does not exist')
-        if roomAllocationData[roomNumber] is not None:
+        if roomNumber in roomAllocationData:
             raise ValueError(f'Room {roomNumber} release room before deleting')
+        #if roomAllocationData[roomNumber] is not None:
+        #    raise ValueError(f'Room {roomNumber} release room before deleting')
         del roomData[roomNumber]
         print(f'Room {roomNumber} deleted')
         return
