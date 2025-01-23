@@ -160,18 +160,49 @@ def InputRoomType(inputString):
                 return RoomType.SINGLE
             else: 
                 return string
-        except TypeError as typeErr:
-            print("Type Error:", typeErr)
+        except SyntaxError as syntaxErr:
+            print("Syntax Error:", syntaxErr)
+            return
         except ValueError as valueErr:
-            print('Value Error: ', valueErr)
-        except AttributeError as attributeErr:
-            print("Attribute Error:", attributeErr)
+            print("Value Error:", valueErr)
+            return
+        except ZeroDivisionError as zeroDivErr:
+            print("Zero Division Error:", zeroDivErr)
+            return
+        except IndexError as indexErr:
+            print("Index Error:", indexErr)
+            return
         except NameError as nameErr:
             print("Name Error:", nameErr)
+            return
+        except TypeError as typeErr:
+            print("Type Error:", typeErr)
+            return
+        except OverflowError as overflowErr:
+            print("Overflow Error:", overflowErr)
+            return
+        except IOError as ioErr:
+            print("IO Error:", ioErr)
+            return
+        except ImportError as importErr:
+            print("Import Error:", importErr)
+            return
+        except EOFError as eofErr:
+            print("EOF Error:", eofErr)
+            return
+        except FileNotFoundError as fileNotFoundErr:
+            print("File Not Found Error:", fileNotFoundErr)
+            return
         except KeyError as keyErr:
             print("Key Error:", keyErr)
+            return
+        except AttributeError as attributeErr:
+            print("Attribute Error:", attributeErr)
+            return
         except Exception as err:
             print("An unexpected error occurred:", err)
+            return
+
 
 # Check input room status
 def InputRoomStatus(inputString):

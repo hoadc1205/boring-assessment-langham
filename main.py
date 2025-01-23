@@ -5,6 +5,10 @@ from utility.helper import InputCommand, InputNumberOfRoom, InputDateTime, Input
 
 
 def main():
+    # File name: LHMS_850001677.txt
+    # Name: Hoa Chu
+    # Description: This is the main program for Langham Hotel Management System
+    # Date: 23/01/2025
     # Menu
     print("********************************************************************************")
     print("                 LANGHAM HOTEL MANAGEMENT SYSTEM                  ")

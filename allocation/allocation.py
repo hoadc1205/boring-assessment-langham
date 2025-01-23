@@ -25,6 +25,12 @@ roomAllocationData['403'] = RoomAllocation("rackal", datetime.datetime.strptime(
 
 # Function to add room allocation
 def addRoomAllocation():
+    """
+    Adds a new room allocation after verifying availability and user input.
+
+    The function displays available rooms, prompts the user for room details,
+    and updates the room allocation data accordingly.
+    """
     print('********************************************************')
     print('AVAILABLE ROOMS')
     totalAvailableRooms = 0
@@ -52,20 +58,44 @@ def addRoomAllocation():
             roomAllocationData[roomNumber] = roomAllocation
             roomData[roomNumber].status = RoomStatus.OCCUPIED
             return
-        except TypeError as typeErr:
-            print("Type Error:", typeErr)
+        except SyntaxError as syntaxErr:
+            print("Syntax Error:", syntaxErr)
             return
         except ValueError as valueErr:
-            print('Value Error: ', valueErr)
+            print("Value Error:", valueErr)
             return
-        except AttributeError as attributeErr:
-            print("Attribute Error:", attributeErr)
+        except ZeroDivisionError as zeroDivErr:
+            print("Zero Division Error:", zeroDivErr)
+            return
+        except IndexError as indexErr:
+            print("Index Error:", indexErr)
             return
         except NameError as nameErr:
             print("Name Error:", nameErr)
             return
+        except TypeError as typeErr:
+            print("Type Error:", typeErr)
+            return
+        except OverflowError as overflowErr:
+            print("Overflow Error:", overflowErr)
+            return
+        except IOError as ioErr:
+            print("IO Error:", ioErr)
+            return
+        except ImportError as importErr:
+            print("Import Error:", importErr)
+            return
+        except EOFError as eofErr:
+            print("EOF Error:", eofErr)
+            return
+        except FileNotFoundError as fileNotFoundErr:
+            print("File Not Found Error:", fileNotFoundErr)
+            return
         except KeyError as keyErr:
             print("Key Error:", keyErr)
+            return
+        except AttributeError as attributeErr:
+            print("Attribute Error:", attributeErr)
             return
         except Exception as err:
             print("An unexpected error occurred:", err)
@@ -73,6 +103,12 @@ def addRoomAllocation():
 
 # Function to display room allocations
 def displayRoomAllocations():
+    """
+    Displays the current room allocation data.
+
+    If no room allocations are available, it informs the user.
+    Otherwise, it prints the details of each allocated room in a formatted manner.
+    """
     if len(roomAllocationData) == 0:
         print("No room allocations found")
     else:
@@ -84,6 +120,11 @@ def displayRoomAllocations():
 
 # Function to deallocate a room
 def roomDeallocation():
+    """
+    This function handles the deallocation of a room by releasing it and calculating the billing.
+    It checks the room's occupancy status, allows updates to checkout date and extra fees,
+    and calculates the total cost based on stay duration and additional charges.
+    """
     try:
         roomNumber = InputRoomNumber("Enter room number: ")
         if roomNumber not in roomData:
@@ -120,20 +161,44 @@ def roomDeallocation():
         del roomAllocationData[roomNumber]
 
         return
-    except TypeError as typeErr:
-        print("Type Error:", typeErr)
+    except SyntaxError as syntaxErr:
+        print("Syntax Error:", syntaxErr)
         return
     except ValueError as valueErr:
-        print('Value Error: ', valueErr)
+        print("Value Error:", valueErr)
         return
-    except AttributeError as attributeErr:
-        print("Attribute Error:", attributeErr)
+    except ZeroDivisionError as zeroDivErr:
+        print("Zero Division Error:", zeroDivErr)
+        return
+    except IndexError as indexErr:
+        print("Index Error:", indexErr)
         return
     except NameError as nameErr:
         print("Name Error:", nameErr)
         return
+    except TypeError as typeErr:
+        print("Type Error:", typeErr)
+        return
+    except OverflowError as overflowErr:
+        print("Overflow Error:", overflowErr)
+        return
+    except IOError as ioErr:
+        print("IO Error:", ioErr)
+        return
+    except ImportError as importErr:
+        print("Import Error:", importErr)
+        return
+    except EOFError as eofErr:
+        print("EOF Error:", eofErr)
+        return
+    except FileNotFoundError as fileNotFoundErr:
+        print("File Not Found Error:", fileNotFoundErr)
+        return
     except KeyError as keyErr:
         print("Key Error:", keyErr)
+        return
+    except AttributeError as attributeErr:
+        print("Attribute Error:", attributeErr)
         return
     except Exception as err:
         print("An unexpected error occurred:", err)
@@ -141,6 +206,11 @@ def roomDeallocation():
 
 # Function to save room allocation data
 def saveRoomAllocationData():
+    """
+    This function saves the room allocation data to a file.
+    It iterates over the room allocation dictionary and writes the details to the specified file.
+    Exception handling is included to catch any unexpected errors during file operations.
+    """
     try:
         with open(roomAllocationFilePath, 'w') as f:
             for key, roomAllocation in roomAllocationData.items():
@@ -149,23 +219,44 @@ def saveRoomAllocationData():
 
         f.close()
         return
-    except TypeError as typeErr:
-        print("Type Error:", typeErr)
+    except SyntaxError as syntaxErr:
+        print("Syntax Error:", syntaxErr)
         return
     except ValueError as valueErr:
-        print('Value Error: ', valueErr)
+        print("Value Error:", valueErr)
         return
-    except AttributeError as attributeErr:
-        print("Attribute Error:", attributeErr)
+    except ZeroDivisionError as zeroDivErr:
+        print("Zero Division Error:", zeroDivErr)
+        return
+    except IndexError as indexErr:
+        print("Index Error:", indexErr)
         return
     except NameError as nameErr:
         print("Name Error:", nameErr)
         return
-    except KeyError as keyErr:
-        print("Key Error:", keyErr)
+    except TypeError as typeErr:
+        print("Type Error:", typeErr)
+        return
+    except OverflowError as overflowErr:
+        print("Overflow Error:", overflowErr)
+        return
+    except IOError as ioErr:
+        print("IO Error:", ioErr)
+        return
+    except ImportError as importErr:
+        print("Import Error:", importErr)
+        return
+    except EOFError as eofErr:
+        print("EOF Error:", eofErr)
         return
     except FileNotFoundError as fileNotFoundErr:
         print("File Not Found Error:", fileNotFoundErr)
+        return
+    except KeyError as keyErr:
+        print("Key Error:", keyErr)
+        return
+    except AttributeError as attributeErr:
+        print("Attribute Error:", attributeErr)
         return
     except Exception as err:
         print("An unexpected error occurred:", err)
@@ -173,35 +264,67 @@ def saveRoomAllocationData():
 
 # Function to show room allocation data
 def showRoomAllocationData():
+    """
+    This function reads and displays the content of the room allocation file.
+    It handles multiple types of exceptions to ensure the program does not crash due to unexpected errors.
+    """
     try:
         with open(roomAllocationFilePath, 'r') as f:
             print(f.read())
         f.close()
         return
-    except TypeError as typeErr:
-        print("Type Error:", typeErr)
+    except SyntaxError as syntaxErr:
+        print("Syntax Error:", syntaxErr)
         return
     except ValueError as valueErr:
-        print('Value Error: ', valueErr)
+        print("Value Error:", valueErr)
         return
-    except AttributeError as attributeErr:
-        print("Attribute Error:", attributeErr)
+    except ZeroDivisionError as zeroDivErr:
+        print("Zero Division Error:", zeroDivErr)
+        return
+    except IndexError as indexErr:
+        print("Index Error:", indexErr)
         return
     except NameError as nameErr:
         print("Name Error:", nameErr)
         return
-    except KeyError as keyErr:
-        print("Key Error:", keyErr)
+    except TypeError as typeErr:
+        print("Type Error:", typeErr)
+        return
+    except OverflowError as overflowErr:
+        print("Overflow Error:", overflowErr)
+        return
+    except IOError as ioErr:
+        print("IO Error:", ioErr)
+        return
+    except ImportError as importErr:
+        print("Import Error:", importErr)
+        return
+    except EOFError as eofErr:
+        print("EOF Error:", eofErr)
         return
     except FileNotFoundError as fileNotFoundErr:
         print("File Not Found Error:", fileNotFoundErr)
+        return
+    except KeyError as keyErr:
+        print("Key Error:", keyErr)
+        return
+    except AttributeError as attributeErr:
+        print("Attribute Error:", attributeErr)
         return
     except Exception as err:
         print("An unexpected error occurred:", err)
         return
 
+
 # Function to backup room allocation data
 def backupRoomAllocationData():
+    """
+    This function creates a backup of the room allocation data by copying 
+    the contents of the original file to a backup file with a timestamp.
+    After the backup is created, the original file is cleared to prepare for new data.
+    Various exceptions are handled to ensure robustness and provide meaningful error messages.
+    """
     try:
         # Read data from the original file
         with open(roomAllocationFilePath, 'r') as original_file:
@@ -223,23 +346,44 @@ def backupRoomAllocationData():
         original_file.close()
         backup_file.close()
         return
-    except TypeError as typeErr:
-        print("Type Error:", typeErr)
+    except SyntaxError as syntaxErr:
+        print("Syntax Error:", syntaxErr)
         return
     except ValueError as valueErr:
-        print('Value Error: ', valueErr)
+        print("Value Error:", valueErr)
         return
-    except AttributeError as attributeErr:
-        print("Attribute Error:", attributeErr)
+    except ZeroDivisionError as zeroDivErr:
+        print("Zero Division Error:", zeroDivErr)
+        return
+    except IndexError as indexErr:
+        print("Index Error:", indexErr)
         return
     except NameError as nameErr:
         print("Name Error:", nameErr)
         return
-    except KeyError as keyErr:
-        print("Key Error:", keyErr)
+    except TypeError as typeErr:
+        print("Type Error:", typeErr)
+        return
+    except OverflowError as overflowErr:
+        print("Overflow Error:", overflowErr)
+        return
+    except IOError as ioErr:
+        print("IO Error:", ioErr)
+        return
+    except ImportError as importErr:
+        print("Import Error:", importErr)
+        return
+    except EOFError as eofErr:
+        print("EOF Error:", eofErr)
         return
     except FileNotFoundError as fileNotFoundErr:
         print("File Not Found Error:", fileNotFoundErr)
+        return
+    except KeyError as keyErr:
+        print("Key Error:", keyErr)
+        return
+    except AttributeError as attributeErr:
+        print("Attribute Error:", attributeErr)
         return
     except Exception as err:
         print("An unexpected error occurred:", err)
